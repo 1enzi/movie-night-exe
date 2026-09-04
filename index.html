@@ -251,6 +251,7 @@
         const film =
           document.getElementById("film").value.trim() ||
           "ChooseTogetherAsync()";
+        void sendMovieRequest(film);
         c.style.display = "none";
         add("\n&gt; film = " + escapeHtml(film));
         add("&gt; leaving_home()");
@@ -278,49 +279,24 @@
           1150,
         );
         setTimeout(
-          () => add("[....] Компиляция решения... [##########] 100%"),
+          () => add("&gt; компилируем решимость... [##########] 100%"),
           1450,
-        );
-        setTimeout(
-          () => add("[....] Проверка уровня социальной тревожности..."),
-          1800,
         );
         setTimeout(
           () =>
             add(
               '<span class="green">[OK]</span> movie_night.status = READY;',
             ),
-          2100,
+          1800,
         );
-        setTimeout(async () => {
-          add("[....] Отправка MovieNightRequest...");
-          const delivered = await sendMovieRequest(film);
-
-          if (delivered) {
-            add('<span class="green">[OK]</span> MovieNightRequest принят.');
+        setTimeout(() => add("\nРазворачиваем киноночь..."), 2100);
+        setTimeout(
+          () =>
             add(
-              '<span class="green">[OK]</span> Данные успешно переданы принимающей стороне.',
-            );
-            add(
-              '<span class="green">[OK]</span> Пути назад больше нет. :D',
-            );
-          } else {
-            add(
-              '<span class="error">[WARN]</span> Сервер принятия жизненно важных решений временно недоступен.',
-            );
-            add(
-              '<span class="error">[WARN]</span> Решение всё равно считается морально обязывающим. ¯\\_(ツ)_/¯',
-            );
-          }
-
-          setTimeout(
-            () =>
-              add(
-                '\n<span class="green">УСПЕХ.</span> Скоро увидимся! :D\n<span class="dim">// да, видимо, чтобы сказать это, действительно понадобилась веб-страница</span>\n\nПроцесс завершён с кодом 0\n\n<span class="prompt">C:\\Users\\Ira></span> <span class="cursor"></span>',
-              ),
-            350,
-          );
-        }, 2400);
+              '<span class="green">УСПЕХ.</span> Скоро увидимся! :D\n<span class="dim">// да, видимо, чтобы сказать это, действительно понадобилась веб-страница</span>\n\nПроцесс завершён с кодом 0\n\n<span class="prompt">C:\\Users\\Ira></span> <span class="cursor"></span>',
+            ),
+          2650,
+        );
       };
       let cancelAttempts = 0;
       document.getElementById("cancel").onclick = () => {
