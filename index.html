@@ -91,6 +91,22 @@
         color: #999;
         outline: none;
       }
+      .privacy-notice {
+        display: inline-block;
+        max-width: 100%;
+        margin-top: 6px;
+        padding: 5px 8px;
+        border: 1px solid #282828;
+        border-radius: 2px;
+        background: #080808;
+        color: #5d5d5d;
+        font-size: 12px;
+        line-height: 1.35;
+        text-align: left;
+      }
+      .privacy-tag {
+        color: #484848;
+      }
       input {
         width: 100%;
         background: #050505;
@@ -156,14 +172,21 @@
       </div>
     </div>
     <footer class="credits">
-      © 2026 movie_night.exe ·
-      <a
-        href="https://github.com/1enzi/movie-night-exe"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Исходный код movie_night.exe на GitHub"
-        >source</a
-      >
+      <div>
+        © 2026 movie_night.exe ·
+        <a
+          href="https://github.com/1enzi/movie-night-exe"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Исходный код movie_night.exe на GitHub"
+          >source</a
+        >
+      </div>
+      <div class="privacy-notice" role="note">
+        <span class="privacy-tag">privacy.notice:</span>
+        Конфиденциальность данных не гарантируется. Введённая информация может
+        быть передана третьим лицам (Ире).
+      </div>
     </footer>
     <script>
       const CONFIG = {
