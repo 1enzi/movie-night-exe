@@ -148,6 +148,7 @@
         <label>&gt; film = </label
         ><input
           id="film"
+          maxlength="200"
           placeholder="название фильма (можно не знать — разберёмся на месте)"
         />
         <button id="run">RUN movie_night.exe</button
@@ -165,8 +166,15 @@
       >
     </footer>
     <script>
+      const CONFIG = {
+        // Вставь сюда HTTPS URL, который напечатает Cloudflare Quick Tunnel.
+        apiBaseUrl: "",
+        requestTimeoutMs: 6000,
+      };
+
       const s = document.getElementById("screen"),
-        c = document.getElementById("controls");
+        c = document.getElementById("controls"),
+        runButton = document.getElementById("run");
       const lines = [
         "Microsoft Windows [Версия... эм... её ещё не успели придумать, это MVP]",
         "(c) Очень Серьёзная Корпорация. Все права однозначно точно защищены.",
@@ -206,7 +214,40 @@
         }
       }
       setTimeout(boot, 300);
-      document.getElementById("run").onclick = () => {
+      let requestStarted = false;
+      async function sendMovieRequest(film) {
+        const baseUrl = CONFIG.apiBaseUrl.trim().replace(/\/+$/, "");
+        if (!baseUrl) return false;
+
+        const controller = new AbortController();
+        const timeout = setTimeout(
+          () => controller.abort(),
+          CONFIG.requestTimeoutMs,
+        );
+
+        try {
+          const response = await fetch(`${baseUrl}/api/movie`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              film,
+              clientTimestamp: new Date().toISOString(),
+            }),
+            signal: controller.signal,
+          });
+          return response.ok;
+        } catch {
+          return false;
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
+
+      runButton.onclick = () => {
+        if (requestStarted) return;
+        requestStarted = true;
+        runButton.disabled = true;
+
         const film =
           document.getElementById("film").value.trim() ||
           "ChooseTogetherAsync()";
@@ -237,22 +278,49 @@
           1150,
         );
         setTimeout(
-          () => add("&gt; компилируем решимость... [##########] 100%"),
+          () => add("[....] Компиляция решения... [##########] 100%"),
           1450,
         );
         setTimeout(
-          () =>
-            add('<span class="green">[OK]</span> movie_night.status = READY;'),
+          () => add("[....] Проверка уровня социальной тревожности..."),
           1800,
         );
-        setTimeout(() => add("\nРазворачиваем киноночь..."), 2100);
         setTimeout(
           () =>
             add(
-              '<span class="green">УСПЕХ.</span> Скоро увидимся! :D\n<span class="dim">// да, видимо, чтобы сказать это, действительно понадобилась веб-страница</span>\n\nПроцесс завершён с кодом 0\n\n<span class="prompt">C:\\Users\\Ira></span> <span class="cursor"></span>',
+              '<span class="green">[OK]</span> movie_night.status = READY;',
             ),
-          2650,
+          2100,
         );
+        setTimeout(async () => {
+          add("[....] Отправка MovieNightRequest...");
+          const delivered = await sendMovieRequest(film);
+
+          if (delivered) {
+            add('<span class="green">[OK]</span> MovieNightRequest принят.');
+            add(
+              '<span class="green">[OK]</span> Данные успешно переданы принимающей стороне.',
+            );
+            add(
+              '<span class="green">[OK]</span> Пути назад больше нет. :D',
+            );
+          } else {
+            add(
+              '<span class="error">[WARN]</span> Сервер принятия жизненно важных решений временно недоступен.',
+            );
+            add(
+              '<span class="error">[WARN]</span> Решение всё равно считается морально обязывающим. ¯\\_(ツ)_/¯',
+            );
+          }
+
+          setTimeout(
+            () =>
+              add(
+                '\n<span class="green">УСПЕХ.</span> Скоро увидимся! :D\n<span class="dim">// да, видимо, чтобы сказать это, действительно понадобилась веб-страница</span>\n\nПроцесс завершён с кодом 0\n\n<span class="prompt">C:\\Users\\Ira></span> <span class="cursor"></span>',
+              ),
+            350,
+          );
+        }, 2400);
       };
       let cancelAttempts = 0;
       document.getElementById("cancel").onclick = () => {
