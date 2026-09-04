@@ -74,6 +74,23 @@
       .controls.show {
         display: block;
       }
+      .credits {
+        max-width: 860px;
+        margin: 7px auto 0;
+        color: #444;
+        font-size: 11px;
+        text-align: right;
+      }
+      .credits a {
+        color: #555;
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      .credits a:hover,
+      .credits a:focus-visible {
+        color: #999;
+        outline: none;
+      }
       input {
         width: 100%;
         background: #050505;
@@ -112,6 +129,11 @@
         .controls {
           padding: 0 13px 13px;
         }
+        .credits {
+          margin-top: 5px;
+          padding-right: 2px;
+          font-size: 10px;
+        }
       }
     </style>
   </head>
@@ -132,6 +154,16 @@
         ><button id="cancel">cancel</button>
       </div>
     </div>
+    <footer class="credits">
+      © 2026 movie_night.exe ·
+      <a
+        href="https://github.com/1enzi/movie-night-exe"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Исходный код movie_night.exe на GitHub"
+        >source</a
+      >
+    </footer>
     <script>
       const s = document.getElementById("screen"),
         c = document.getElementById("controls");
