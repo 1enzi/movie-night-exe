@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>movie_night.exe</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #050505;
+        color: #ddd;
+        font:
+          16px/1.55 Consolas,
+          "Courier New",
+          monospace;
+        padding: 24px;
+      }
+      .cmd {
+        max-width: 860px;
+        margin: auto;
+        border: 1px solid #555;
+        background: #0c0c0c;
+        box-shadow: 0 12px 40px #000;
+      }
+      .bar {
+        background: #e7e7e7;
+        color: #111;
+        padding: 7px 10px;
+        font-family:
+          Segoe UI,
+          sans-serif;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .screen {
+        padding: 18px;
+        min-height: 520px;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .green {
+        color: #70e070;
+      }
+      .dim {
+        color: #888;
+      }
+      .error {
+        color: #ff7474;
+      }
+      .prompt {
+        color: #fff;
+      }
+      .cursor {
+        display: inline-block;
+        width: 9px;
+        height: 17px;
+        background: #ddd;
+        vertical-align: -3px;
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .controls {
+        padding: 0 18px 18px;
+        display: none;
+      }
+      .controls.show {
+        display: block;
+      }
+      input {
+        width: 100%;
+        background: #050505;
+        color: #fff;
+        border: 1px solid #777;
+        padding: 11px;
+        font: inherit;
+        margin: 8px 0 12px;
+        outline: none;
+      }
+      input:focus {
+        border-color: #fff;
+      }
+      button {
+        background: #111;
+        color: #eee;
+        border: 1px solid #777;
+        padding: 9px 12px;
+        font: inherit;
+        cursor: pointer;
+        margin: 4px 6px 4px 0;
+      }
+      button:hover {
+        background: #222;
+        border-color: #fff;
+      }
+      @media (max-width: 520px) {
+        body {
+          padding: 8px;
+          font-size: 14px;
+        }
+        .screen {
+          padding: 13px;
+          min-height: 470px;
+        }
+        .controls {
+          padding: 0 13px 13px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cmd">
+      <div class="bar">
+        <span>C:\WINDOWS\system32\cmd.exe — movie_night.exe</span
+        ><span>— □ ×</span>
+      </div>
+      <div id="screen" class="screen"></div>
+      <div id="controls" class="controls">
+        <label>&gt; film = </label
+        ><input
+          id="film"
+          placeholder="название фильма (можно не знать — разберёмся на месте)"
+        />
+        <button id="run">RUN movie_night.exe</button
+        ><button id="cancel">cancel</button>
+      </div>
+    </div>
+    <script>
+      const s = document.getElementById("screen"),
+        c = document.getElementById("controls");
+      const lines = [
+        "Microsoft Windows [Версия... эм... её ещё не успели придумать, это MVP]",
+        "(c) Очень Серьёзная Корпорация. Все права однозначно точно защищены.",
+        "",
+        "C:\\Users\\Ira> import movie_night",
+        '<span class="error">CompilerError:</span> обнаружен Python код внутри C-хэштег-диалога.  ¯\\_(ツ)_/¯',
+        "",
+        "C:\\Users\\Ira> dotnet repair --emotional-support",
+        '<span class="green">[OK]</span> Синтаксические преступления проигнорированы.',
+        '<span class="green">[OK]</span> Приглашение обнаружено. :)',
+        '<span class="green">[OK]</span> Рукопожатие по протоколу юмора завершено. :D',
+        '<span class="green">[OK]</span> Социальная совместимость: подозрительно высокая.',
+        '<span class="dim">// вообще-то здесь должен был быть обычный ответ в Telegram</span>',
+        '<span class="dim">// но, к сожалению, случилось инженерное мышление</span>',
+        '<span class="error">[WARN]</span> WeatherException: дождь =/',
+        '<span class="dim">// umbrella.dll не найден. продолжаем на свой страх и риск.</span>',
+        "",
+        "Инициализация мастера настройки киноночи...",
+        "Загрузка совершенно необходимой лишней инфраструктуры... 100%",
+        '<span class="green">ГОТОВО.</span>  ヽ(•‿•)ノ',
+      ];
+      let i = 0;
+      function add(html) {
+        s.innerHTML += html + "\n";
+        s.scrollTop = s.scrollHeight;
+      }
+      function boot() {
+        if (i < lines.length) {
+          add(lines[i++]);
+          setTimeout(boot, i < 4 ? 190 : 120);
+        } else {
+          add(
+            '\n<span class="prompt">C:\\Users\\Ira></span> configure movie_night <span class="cursor"></span>',
+          );
+          c.classList.add("show");
+          document.getElementById("film").focus();
+        }
+      }
+      setTimeout(boot, 300);
+      document.getElementById("run").onclick = () => {
+        const film =
+          document.getElementById("film").value.trim() ||
+          "ChooseTogetherAsync()";
+        c.style.display = "none";
+        add("\n&gt; film = " + escapeHtml(film));
+        add("&gt; leaving_home()");
+        setTimeout(
+          () =>
+            add('<span class="green">[OK]</span> Фильм принят системой. :)'),
+          300,
+        );
+        setTimeout(
+          () => add('<span class="green">[OK]</span> Компания: одобрена.'),
+          600,
+        );
+        setTimeout(
+          () =>
+            add(
+              '<span class="error">[WARN]</span> Погода: всё ещё отстой. ಠ_ಠ',
+            ),
+          900,
+        );
+        setTimeout(
+          () =>
+            add(
+              '<span class="dim">// необходимость leaving_home() оспорена, но вызов не отменён</span>',
+            ),
+          1150,
+        );
+        setTimeout(
+          () => add("&gt; компилируем решимость... [##########] 100%"),
+          1450,
+        );
+        setTimeout(
+          () =>
+            add('<span class="green">[OK]</span> movie_night.status = READY;'),
+          1800,
+        );
+        setTimeout(() => add("\nРазворачиваем киноночь..."), 2100);
+        setTimeout(
+          () =>
+            add(
+              '<span class="green">УСПЕХ.</span> Скоро увидимся! :D\n<span class="dim">// да, видимо, чтобы сказать это, действительно понадобилась веб-страница</span>\n\nПроцесс завершён с кодом 0\n\n<span class="prompt">C:\\Users\\Ira></span> <span class="cursor"></span>',
+            ),
+          2650,
+        );
+      };
+      let cancelAttempts = 0;
+      document.getElementById("cancel").onclick = () => {
+        cancelAttempts++;
+        add("\n&gt; cancel");
+        if (cancelAttempts === 1) {
+          setTimeout(
+            () =>
+              add(
+                '<span class="error">AccessDeniedException:</span> значение false не поддерживается текущей версией API.  ¯\\_(ツ)_/¯',
+              ),
+            250,
+          );
+          setTimeout(
+            () => add('<span class="dim">// хорошая попытка :D</span>'),
+            500,
+          );
+          setTimeout(
+            () =>
+              (document.getElementById("cancel").textContent =
+                "всё равно cancel"),
+            550,
+          );
+        } else {
+          setTimeout(
+            () =>
+              add(
+                '<span class="error">FatalError:</span> обнаружено подозрительное упорство.',
+              ),
+            250,
+          );
+          setTimeout(
+            () =>
+              add(
+                "Рекомендуемое исправление: нажать RUN и перестать спорить с программой :D\n",
+              ),
+            600,
+          );
+          document.getElementById("cancel").disabled = true;
+          document.getElementById("cancel").textContent =
+            "cancel.exe прекратил работу";
+        }
+      };
+      function escapeHtml(x) {
+        return x.replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[m],
+        );
+      }
+    </script>
+  </body>
+</html>
